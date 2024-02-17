@@ -66,10 +66,11 @@ async function letterboxImage(image, size) {
 
 async function appendImageToGrid(image, gridId, newRow = false) {
     const grid = document.getElementById(gridId);
+    const tbody = grid.querySelector("tbody");
     let tr = grid.querySelectorAll("tr");
     if (newRow || tr === null) {
         tr = document.createElement("tr");
-        grid.appendChild(tr);
+        tbody.appendChild(tr);
     } else {
         tr = tr[tr.length - 1];
     }
@@ -78,6 +79,24 @@ async function appendImageToGrid(image, gridId, newRow = false) {
     const td = tr.insertCell();
     td.appendChild(imgElement);
     return imgElement.src;
+}
+
+async function runDigitRecognizer(image, digitRecognizerSession) {
+    const imagex = await image.clone();
+    imagex.rgba(false);
+
+    const inputImage = await letterboxImage(imagex, [64, 64]);
+    const inputTensor = imageDataToTensor(
+        inputImage,
+        [1, 3, 64, 64],
+    );
+
+    const outputMap = await digitRecognizerSession.run({ input: inputTensor });
+    const output = outputMap[digitRecognizerSession.outputNames[0]];
+    const scores = output.data;
+    const maxScore = Math.max(...scores);
+    const maxScoreIdx = scores.indexOf(maxScore);
+    return maxScoreIdx;
 }
 
 async function runNumbox(image, numboxSession, nmsSession) {
@@ -135,6 +154,9 @@ export default async function main(files) {
     );
     const nmsSession = await ort.InferenceSession.create(
         "./models/nms-yolov5.ort"
+    );
+    const digitRecognizerSession = await ort.InferenceSession.create(
+        "./models/mnist-mnetv3s.onnx"
     );
 
     const image = await Jimp.read(imageEl.src);
@@ -213,6 +235,7 @@ export default async function main(files) {
         }
 
         // Sort numboxes based on x1
+        let digits = "";
         numboxes.sort((a, b) => a[0] - b[0]);
         for (let j = 0; j < numboxes.length; j++) {
             const [x, y, w, h] = numboxes[j];
@@ -220,6 +243,18 @@ export default async function main(files) {
             const croppedImage = localImg.crop(x,y,w,h);
             let newRow = j === 0;
             await appendImageToGrid(croppedImage, "numbox-grid", newRow);
+            const digit = await runDigitRecognizer(croppedImage, digitRecognizerSession);
+            digits += digit;
         }
+
+        // Display the detected digits
+        const grid = document.getElementById("numbox-grid");
+        let tr = grid.querySelectorAll("tr");
+        tr = tr[tr.length - 1];
+        const textElement = document.createElement("a");
+        textElement.innerHTML = digits;
+        textElement.type = "text";
+        const td = tr.insertCell();
+        td.appendChild(textElement);
     }
 }
