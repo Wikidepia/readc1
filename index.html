@@ -28,6 +28,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
     />
+
+    <!-- Grid.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
   </head>
 
   <body>
@@ -55,14 +59,26 @@
         <!-- Formulir Localization-->
         <div style="border: 1px solid #000; padding: 8px; margin: 12px;">
             <h3 style="margin-bottom: 4px">Localization Hitungan</h3>
-            <div class="grid" id="localization-grid"></div>    
+            <figure id="localization-grid">
+                <table>
+                    <tbody>
+                        <tr></tr>
+                    </tbody>
+                </table>
+            </figure>    
         </div>
 
         <!-- Formulir NumBox-->
         <div style="border: 1px solid #000; padding: 8px; margin: 12px;">
             <h3 style="margin-bottom: 4px">Nomor Box</h3>
-            <div class="grid" id="numbox-grid"></div>
+            <figure id="numbox-grid">
+                <table>
+                    <tbody>
+                    </tbody>
+                </table>
+            </figure>
         </div>
+
       </div>
     </main>
     <!-- ./ Main -->

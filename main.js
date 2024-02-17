@@ -63,6 +63,23 @@ async function letterboxImage(image, size) {
     return inputTensor;
   }
 
+
+async function appendImageToGrid(image, gridId, newRow = false) {
+    const grid = document.getElementById(gridId);
+    let tr = grid.querySelectorAll("tr");
+    if (newRow || tr === null) {
+        tr = document.createElement("tr");
+        grid.appendChild(tr);
+    } else {
+        tr = tr[tr.length - 1];
+    }
+    const imgElement = document.createElement("img");
+    imgElement.src = await image.getBase64Async(Jimp.MIME_PNG);
+    const td = tr.insertCell();
+    td.appendChild(imgElement);
+    return imgElement.src;
+}
+
 async function runNumbox(image, numboxSession, nmsSession) {
     const imagex = await image.clone()
     const iw = imagex.bitmap.width;
@@ -104,16 +121,6 @@ async function runNumbox(image, numboxSession, nmsSession) {
         boxes.push([xs, ys, ws, hs]);
     }
     return boxes;
-}
-
-async function appendImageToGrid(image, gridId) {
-    const grid = document.getElementById(gridId);
-    const divElement = document.createElement("div");
-    const imgElement = document.createElement("img");
-    imgElement.src = await image.getBase64Async(Jimp.MIME_PNG);
-    divElement.appendChild(imgElement);
-    grid.appendChild(divElement);
-    return imgElement.src;
 }
 
 export default async function main(files) {
@@ -211,7 +218,8 @@ export default async function main(files) {
             const [x, y, w, h] = numboxes[j];
             const localImg = await Jimp.read(localImgSrc);
             const croppedImage = localImg.crop(x,y,w,h);
-            await appendImageToGrid(croppedImage, "numbox-grid");
+            let newRow = j === 0;
+            await appendImageToGrid(croppedImage, "numbox-grid", newRow);
         }
     }
 }
