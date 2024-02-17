@@ -1,0 +1,17 @@
+{
+    "name": "quick-start_onnxruntime-web-bundler",
+    "private": true,
+    "version": "1.0.0",
+    "description": "This example is a demonstration of basic usage of ONNX Runtime Web using a bundler.",
+    "dependencies": {
+        "@jimp/plugin-crop": "^0.22.10",
+        "jimp": "^0.22.10",
+        "onnxruntime-web": "^1.15.1"
+    },
+    "devDependencies": {
+        "copy-webpack-plugin": "^8.1.1",
+        "webpack": "^5.36.2",
+        "webpack-cli": "^4.6.0",
+        "webpack-dev-server": "^5.0.2"
+    }
+}

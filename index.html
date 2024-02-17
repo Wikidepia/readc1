@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- HTML Meta Tags -->
+    <title>Baca Formulir • ReadC1</title>
+    <meta name="description" content="" />
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Baca Formulir • ReadC1" />
+    <meta property="og:site_name" content="ReadC1" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="empty.jpeg" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="" />
+    <meta name="twitter:title" content="Baca Formulir • ReadC1" />
+    <meta name="twitter:description" content="" />
+    <meta name="twitter:image" content="empty.jpeg" />
+
+    <!-- Pico.css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+    />
+  </head>
+
+  <body>
+    <!-- Main -->
+    <main
+      class="container-fluid"
+      style="max-width: 42rem; padding-top: 25px; padding-bottom: 25px"
+    >
+      <div>
+        <hgroup>
+          <h1>Baca Formulir</h1>
+          <h2>Aplikasi ini dapat membaca formulir C1 secara otomatis. Download [Gambar Demo] sebagai gambar contoh.</h2>
+        </hgroup>
+
+        <!-- File browser -->
+        <label for="file" style="border: 1px solid #000; padding: 8px; margin-bottom: 24px;">Pilih Formulir
+            <input type="file" id="file" name="file" onchange="window.main.default(this.files)" accept="image/*" style="margin-bottom: 4px;">
+        </label>
+
+        <!-- Formulir Full -->
+        <div style="display: flex; justify-content: center;">
+            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Formulir" id="form-image" style="width: 100%; height: auto; max-width: 400px;">
+        </div>
+
+        <!-- Formulir Localization-->
+        <div style="border: 1px solid #000; padding: 8px; margin: 12px;">
+            <h3 style="margin-bottom: 4px">Localization Hitungan</h3>
+            <div class="grid" id="localization-grid"></div>    
+        </div>
+
+        <!-- Formulir NumBox-->
+        <div style="border: 1px solid #000; padding: 8px; margin: 12px;">
+            <h3 style="margin-bottom: 4px">Nomor Box</h3>
+            <div class="grid" id="numbox-grid"></div>
+        </div>
+      </div>
+    </main>
+    <!-- ./ Main -->
+    <script src="./dist/bundle.min.js"></script>
+  </body>
+</html>
